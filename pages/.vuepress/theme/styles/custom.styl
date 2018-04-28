@@ -1,0 +1,40 @@
+body
+  font-family 'Helvetica Neue', Helvetica, Arial, sans-serif
+
+h1, h2, h3
+  font-weight normal
+
+hr
+  -webkit-box-sizing content-box
+  box-sizing content-box
+  display block
+  height 0
+  border 0
+  border-top 0!important
+  text-align center
+  overflow visible
+  margin-top 52px
+  margin-bottom 42px
+
+hr:before
+  font-family Georgia, Cambria, "Times New Roman", Times, serif
+  font-weight 400
+  font-style italic
+  font-size 30px
+  letter-spacing .6em
+  content '...'
+  display inline-block
+  margin-left .6em
+  color $dotsColor
+  position relative
+  top -30px
+
+.footer
+  font-size 0.8rem
+  padding 1.5rem
+  border-top 1px solid #eaecef
+  text-align center
+
+// Hide navbar title
+.navbar .site-name.can-hide
+  display none
