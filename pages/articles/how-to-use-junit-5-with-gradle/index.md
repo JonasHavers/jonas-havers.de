@@ -37,19 +37,22 @@ test {
 
 ## Test logging
 
-s
+```bash
 java9.collections.MapTest > java9.collections.MapTest$Of.shouldThrowAnExceptionWhenPassedNullValue() PASSED
 
-    java9.collections.MapTest > java9.collections.MapTest$Of.shouldCreateAMapOfTypeImmutableCollections$Map0() PASSED
+java9.collections.MapTest > java9.collections.MapTest$Of.shouldCreateAMapOfTypeImmutableCollections$Map0() PASSED
+```
 
 To get a test logging similar to the above, add the following `testLogging` to
 the `test` closure:
 
-    test {
-        testLogging {
-            events 'PASSED', 'FAILED', 'SKIPPED'
-        }
+```groovy
+test {
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
     }
+}
+```
 
 There are three additional `TestLogEvent`s: `STARTED`, `STANDARD_OUT` and
 `STANDARD_ERROR`. To add the Standard-Out and Standard-Error streams, you can
@@ -61,22 +64,26 @@ IntelliJ for example.
 
 ## Test summary
 
-    Test result: SUCCESS
-    Test summary: 38 tests, 38 succeeded, 0 failed, 0 skipped
+```bash
+Test result: SUCCESS
+Test summary: 38 tests, 38 succeeded, 0 failed, 0 skipped
+```
 
 To get a test summary like the above, add an `afterSuite` to the `test` closure:
 
-    test {
-        afterSuite { desc, result ->
-            if (!desc.parent) {
-                println "\nTest result: ${result.resultType}"
-                println "Test summary: ${result.testCount} tests, " +
-                        "${result.successfulTestCount} succeeded, " +
-                        "${result.failedTestCount} failed, " +
-                        "${result.skippedTestCount} skipped"
-            }
+```groovy
+test {
+    afterSuite { desc, result ->
+        if (!desc.parent) {
+            println "\nTest result: ${result.resultType}"
+            println "Test summary: ${result.testCount} tests, " +
+                    "${result.successfulTestCount} succeeded, " +
+                    "${result.failedTestCount} failed, " +
+                    "${result.skippedTestCount} skipped"
         }
     }
+}
+```
 
 I have published a [project on
 GitHub](https://github.com/JonasHavers/javafeatures) that uses this

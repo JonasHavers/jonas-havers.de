@@ -22,20 +22,21 @@ In this example, all requests to URIs that do not end with a trailing slash are 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TrailingSlashRedirectingFilter extends OncePerRequestFilter {
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!request.getRequestURI().endsWith("/")) {
-            ServletUriComponentsBuilder builder =
-  ServletUriComponentsBuilder.fromRequest(request);
-            builder.replacePath(String.format("%s/",
-  builder.build().getPath()));
-           response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
-           response.setHeader(HttpHeaders.LOCATION,
-  builder.toUriString());
-        } else {
-            filterChain.doFilter(request, response);
-        }
+  @Override
+  protected void doFilterInternal(
+    HttpServletRequest request,
+    HttpServletResponse response,
+    FilterChain filterChain
+  ) throws ServletException, IOException {
+    if (!request.getRequestURI().endsWith("/")) {
+      ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromRequest(request);
+      builder.replacePath(String.format("%s/", builder.build().getPath()));
+      response.setStatus(HttpStatus.MOVED_PERMANENTLY.value());
+      response.setHeader(HttpHeaders.LOCATION, builder.toUriString());
+    } else {
+      filterChain.doFilter(request, response);
     }
+  }
 }
 ```
 
@@ -57,7 +58,7 @@ public class WebMvcPathMatchConfiguration implements WebMvcConfigurer {
 
   @Override
   public void configurePathMatch(PathMatchConfigurer configurer) {
-      configurer.setUseTrailingSlashMatch(false);
+    configurer.setUseTrailingSlashMatch(false);
   }
 }
 ```

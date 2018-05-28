@@ -4,7 +4,7 @@ lang: en-US
 date: 2018-04-12
 meta:
   - name: description
-    content: 'In cases where you do not want to handle unique constraint violation errors that are caused by duplicate entries, an UPSERT would be useful to have with PostgreSQL.'
+    content: 'The Tagged Image File Format (TIFF or TIF) is a computer file format for storing raster graphics images. If you want to deliver TIFF data with Spring MVC, this post is for you.'
   - name: keywords
     content: [TIFF, 'Spring MVC', 'Spring Boot', 'Byte Array', 'Image Response']
 ---
@@ -49,5 +49,4 @@ public class WebMvcMessageConvertersConfiguration implements WebMvcConfigurer {
 }
 ```
 
-s
 That's it. You are done. It is basically the same for other image formats. Have a look [at another article](http://www.baeldung.com/spring-mvc-image-media-data) for an alternative implementation.

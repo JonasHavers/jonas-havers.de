@@ -4,7 +4,9 @@
 
 <style scoped>
 .photo {
-  width: 80%;
+  display: block;
+  margin: 0 auto;
+  width: 75%;
   border: 1px #777 solid;
   border-radius: 50%;
 }
@@ -19,7 +21,7 @@
 
 @media (min-width: 720px) {
   .photo {
-    width: 30%;
+    width: 25%;
     margin-left: 0.8rem;
     float: right;
   }

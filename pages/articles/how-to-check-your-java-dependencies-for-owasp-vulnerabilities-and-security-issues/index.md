@@ -62,22 +62,24 @@ your project and restrict the task’s execution to that scheduled (nightly)
 build. Here is an excerpt for your _.gitlab-ci.yml_ file that you place in your
 project root folder:
 
-    stages:
-      - dependencyCheck
-      # etc.
+```yaml
+stages:
+  - dependencyCheck
+  # etc.
 
-    dependencyCheck:
-      stage: dependencyCheck
-      only:
-        - schedules
-      script:
-        - ./gradlew dependencyCheckAnalyze
-      artifacts:
-        name: "${CI_JOB_ID}_${CI_JOB_NAME}"
-        when: always
-        expire_in: 30 day
-        paths:
-          - build/reports/dependency-check-report.html
+dependencyCheck:
+  stage: dependencyCheck
+  only:
+    - schedules
+  script:
+    - ./gradlew dependencyCheckAnalyze
+  artifacts:
+    name: "${CI_JOB_ID}_${CI_JOB_NAME}"
+    when: always
+    expire_in: 30 day
+    paths:
+      - build/reports/dependency-check-report.html
+```
 
 When executed, the plugin will create the dependency check HTML report and
 Gitlab will archive it for 30 days.

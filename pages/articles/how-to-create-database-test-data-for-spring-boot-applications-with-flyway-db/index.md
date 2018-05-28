@@ -57,7 +57,7 @@ application and put onto the classpath at runtime.
 
 Put the default Flyway configuration into your `application.properties`:
 
-```
+```properties
 spring.flyway.locations=classpath:/db/migration
 ```
 
@@ -65,7 +65,7 @@ This way only the versioned migrations are executed at application startup-time.
 Now, put the setting that is specific to your development stage into your `dev`
 profile’s `application-dev.properties`:
 
-```
+```properties
 spring.flyway.locations=classpath:/db/migration,classpath:/db/testdata
 ```
 

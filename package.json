@@ -1,19 +1,17 @@
 {
   "name": "jonas-havers.de",
-  "version": "1.0.0",
+  "version": "1.0.0-SNAPSHOT",
   "description": "Personal website of Jonas Havers",
   "private": true,
   "scripts": {
-    "pages:dev": "vuepress dev pages",
-    "pages:build": "vuepress build pages -d dist",
-    "pages:deploy":
-      "cd dist && git init && git add -A && git commit -m 'Deploy static website' && git push -f git@github.com:JonasHavers/jonas-havers.de.git master:gh-pages"
+    "dev": "npx vuepress dev pages",
+    "build": "npx vuepress build pages -d dist",
+    "deploy": "cd dist && git init && git add -A && git commit -m 'Deploy static website' && git push -f git@github.com:JonasHavers/jonas-havers.de.git master:gh-pages"
   },
   "keywords": [],
-  "author":
-    "Jonas Havers <jonas.havers+github@gmail.com> (https://github.com/JonasHavers)",
+  "author": "Jonas Havers <jonas.havers+github@gmail.com> (https://github.com/JonasHavers)",
   "license": "MIT",
   "devDependencies": {
-    "vuepress": "0.8.4"
+    "vuepress": "v1.0.0-alpha.47"
   }
 }

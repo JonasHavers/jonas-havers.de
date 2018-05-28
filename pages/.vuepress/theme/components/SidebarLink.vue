@@ -1,10 +1,25 @@
 <script>
-import { isActive, hashRE, groupHeaders } from './util'
+import { isActive, hashRE, groupHeaders } from '../util'
 
 export default {
   functional: true,
-  props: ['item'],
-  render (h, { parent: { $page, $site, $route }, props: { item }}) {
+
+  props: ['item', 'sidebarDepth'],
+
+  render (h,
+    {
+      parent: {
+        $page,
+        $site,
+        $route,
+        $themeConfig,
+        $themeLocaleConfig
+      },
+      props: {
+        item,
+        sidebarDepth
+      }
+    }) {
     // use custom active class matching logic
     // due to edge case of paths ending with / + hash
     const selfActive = isActive($route, item.path)
@@ -14,13 +29,20 @@ export default {
       ? selfActive || item.children.some(c => isActive($route, item.basePath + '#' + c.slug))
       : selfActive
     const link = renderLink(h, item.path, item.title || item.path, active)
-    const configDepth = $page.frontmatter.sidebarDepth != null
-      ? $page.frontmatter.sidebarDepth
-      : $site.themeConfig.sidebarDepth
+
+    const configDepth = $page.frontmatter.sidebarDepth
+      || sidebarDepth
+      || $themeLocaleConfig.sidebarDepth
+      || $themeConfig.sidebarDepth
+
     const maxDepth = configDepth == null ? 1 : configDepth
+
+    const displayAllHeaders = $themeLocaleConfig.displayAllHeaders
+      || $themeConfig.displayAllHeaders
+
     if (item.type === 'auto') {
       return [link, renderChildren(h, item.children, item.basePath, $route, maxDepth)]
-    } else if (active && item.headers && !hashRE.test(item.path)) {
+    } else if ((active || displayAllHeaders) && item.headers && !hashRE.test(item.path)) {
       const children = groupHeaders(item.headers)
       return [link, renderChildren(h, children, item.path, $route, maxDepth)]
     } else {
@@ -34,7 +56,7 @@ function renderLink (h, to, text, active) {
     props: {
       to,
       activeClass: '',
-      exactActiveClass: '',
+      exactActiveClass: ''
     },
     class: {
       active,
@@ -48,7 +70,7 @@ function renderChildren (h, children, path, route, maxDepth, depth = 1) {
   return h('ul', { class: 'sidebar-sub-headers' }, children.map(c => {
     const active = isActive(route, path + '#' + c.slug)
     return h('li', { class: 'sidebar-sub-header' }, [
-      renderLink(h, '#' + c.slug, c.title, active),
+      renderLink(h, path + '#' + c.slug, c.title, active),
       renderChildren(h, c.children, path, route, maxDepth, depth + 1)
     ])
   }))
@@ -56,13 +78,12 @@ function renderChildren (h, children, path, route, maxDepth, depth = 1) {
 </script>
 
 <style lang="stylus">
-@import './styles/config.styl'
-
 .sidebar .sidebar-sub-headers
   padding-left 1rem
   font-size 0.95em
 
 a.sidebar-link
+  font-size 1em
   font-weight 400
   display inline-block
   color $textColor
