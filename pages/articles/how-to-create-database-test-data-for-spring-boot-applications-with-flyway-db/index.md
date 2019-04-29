@@ -1,6 +1,6 @@
 ---
 title: How to create database test data for Spring Boot applications with Flyway DB
-lang: en-US
+lang: en
 date: 2018-04-16
 meta:
   - name: description

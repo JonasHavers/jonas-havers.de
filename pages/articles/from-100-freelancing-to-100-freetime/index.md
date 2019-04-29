@@ -1,6 +1,6 @@
 ---
 title: From 100 % Freelancing to 100 % Freetime — My open journey in April
-lang: en-US
+lang: en
 date: 2018-04-03
 meta:
   - name: description

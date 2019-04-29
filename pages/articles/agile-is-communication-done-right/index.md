@@ -1,6 +1,6 @@
 ---
 title: Agile Is Communication Done Right.
-lang: en-US
+lang: en
 date: 2018-04-05
 meta:
   - name: description

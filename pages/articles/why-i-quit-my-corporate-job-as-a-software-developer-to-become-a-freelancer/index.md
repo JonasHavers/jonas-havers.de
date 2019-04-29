@@ -1,6 +1,6 @@
 ---
 title: Why I quit my Corporate Job as a Software Developer to become a Freelancer
-lang: en-US
+lang: en
 date: 2018-04-04
 meta:
   - name: description

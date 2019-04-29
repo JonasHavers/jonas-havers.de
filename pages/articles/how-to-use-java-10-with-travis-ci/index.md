@@ -1,6 +1,6 @@
 ---
 title: How to use Java 10+ with Travis CI
-lang: en-US
+lang: en
 date: 2018-04-18
 meta:
   - name: description

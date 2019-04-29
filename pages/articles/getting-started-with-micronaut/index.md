@@ -1,6 +1,6 @@
 ---
 title: Getting started with Micronaut
-lang: en-US
+lang: en
 date: 2018-05-30
 meta:
   - name: description

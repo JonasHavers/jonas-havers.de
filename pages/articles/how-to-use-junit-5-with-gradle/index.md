@@ -1,7 +1,10 @@
 ---
 title: How to use JUnit 5 with Gradle
-lang: en-US
+lang: en
 date: 2018-04-13
+updates:
+  - date: 2019-04-29
+    content: Added single testCompile dependency. Updated current versions.
 meta:
   - name: description
     content: 'There are several ways to use JUnit 5 with Gradle. One possibility is to use Gradle ≥ 4.6 which comes with native support for the JUnit platform.'
@@ -26,12 +29,20 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
 }
 
 test {
     useJUnitPlatform()
+}
+```
+
+Since I wrote the first edition of this article, the declaration became even easier:
+
+```groovy
+dependencies {
+    testCompile 'org.junit.jupiter:junit-jupiter:5.5.1'
 }
 ```
 

@@ -1,6 +1,6 @@
 ---
 title: How to activate type checking for all Groovy classes
-lang: en-US
+lang: en
 date: 2018-04-26
 meta:
   - name: description

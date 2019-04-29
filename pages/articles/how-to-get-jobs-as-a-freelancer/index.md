@@ -1,6 +1,6 @@
 ---
 title: How to get jobs as a freelancer 
-lang: en-US
+lang: en
 date: 2018-04-06
 meta:
   - name: description

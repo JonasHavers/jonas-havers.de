@@ -1,6 +1,6 @@
 ---
 title: HTTP 301 Permanent Redirect Filter For URLs Without Trailing Slash With Spring MVC
-lang: en-US
+lang: en
 date: 2018-04-10
 meta:
   - name: description

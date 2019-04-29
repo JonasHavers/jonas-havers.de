@@ -4,7 +4,7 @@
 
     <Content/>
 
-    <footer class="page-edit">
+    <footer class="page-edit" v-if="editLink || lastUpdated">
       <div
         class="edit-link"
         v-if="editLink"
@@ -196,7 +196,8 @@ function flatten (items, res) {
 @require '../styles/wrapper.styl'
 
 .page
-  padding-bottom 2rem
+  // CUSTOM replace padding-bottom 2rem
+  padding-bottom 0
   display block
 
 .page-edit

@@ -1,6 +1,6 @@
 ---
 title: Returning TIFF Image Data with Spring MVC
-lang: en-US
+lang: en
 date: 2018-04-12
 meta:
   - name: description

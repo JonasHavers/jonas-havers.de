@@ -1,5 +1,5 @@
 <template>
-    <img src="/jonas-havers.jpg" alt="Jonas Havers" class="photo">
+    <img src="/jonas-havers.jpg" alt="Jonas Havers" title="Jonas Havers" class="photo">
 </template>
 
 <style scoped>
@@ -7,8 +7,8 @@
   display: block;
   margin: 0 auto;
   width: 75%;
-  border: 1px #777 solid;
   border-radius: 50%;
+  box-shadow: 2px 2px 4px #777;
 }
 
 @media (min-width: 420px) {

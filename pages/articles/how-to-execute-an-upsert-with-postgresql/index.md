@@ -1,6 +1,6 @@
 ---
 title: How to execute an UPSERT with PostgreSQL
-lang: en-US
+lang: en
 date: 2018-04-11
 meta:
   - name: description

@@ -1,6 +1,6 @@
 ---
 title: How to check your Java dependencies for OWASP vulnerabilities and security issues
-lang: en-US
+lang: en
 date: 2018-04-23
 meta:
   - name: description

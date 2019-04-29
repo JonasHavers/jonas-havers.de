@@ -1,6 +1,6 @@
 ---
 title: How to use Groovy sources from Java in Gradle projects
-lang: en-US
+lang: en
 date: 2018-04-09
 meta:
   - name: description
