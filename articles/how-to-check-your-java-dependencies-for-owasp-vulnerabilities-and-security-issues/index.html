@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>How to check your Java dependencies for OWASP vulnerabilities and security issues | Jonas Havers</title>
+    <meta name="description" content="The OWASP dependency-check provides monitoring of the libraries you use in your Java project to identify the use of known vulnerable components.">
+    <meta http-equiv="content-type" content="text/html; charset:UTF-8">
+  <meta name="x-ua-compatible" content="IE:edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta http-equiv="cleartype" content="on">
+  <meta name="theme-color" content="#3C3C3B">
+  <meta name="msapplication-TileColor" content="#3C3C3B">
+  <meta name="author" content="Jonas Havers">
+  <meta property="og:site_name" content="jonas-havers.de">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:url" content="https://jonas-havers.de">
+  <meta property="og:image" content="https://jonas-havers.de/jonas-havers.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:creator" content="@JonasHavers">
+  <meta name="twitter:site" content="@JonasHavers">
+  <meta name="twitter:url" content="https://jonas-havers.de">
+    <meta name="keywords" content="OWASP,Java,Dependency Check,Security Issues,Gradle">
+    <link rel="preload" href="/assets/css/0.styles.37ebc109.css" as="style"><link rel="preload" href="/assets/js/app.e42eebfe.js" as="script"><link rel="preload" href="/assets/js/6.e7f0fcb3.js" as="script"><link rel="preload" href="/assets/js/1.7959f0b7.js" as="script"><link rel="preload" href="/assets/js/23.92edfe0a.js" as="script"><link rel="prefetch" href="/assets/js/2.45d418fc.js"><link rel="prefetch" href="/assets/js/3.04b88f49.js"><link rel="prefetch" href="/assets/js/4.e7084cf5.js"><link rel="prefetch" href="/assets/js/5.437fa337.js"><link rel="prefetch" href="/assets/js/7.4d598085.js"><link rel="prefetch" href="/assets/js/8.1d032926.js"><link rel="prefetch" href="/assets/js/9.ee958c6f.js"><link rel="prefetch" href="/assets/js/10.a35e87c5.js"><link rel="prefetch" href="/assets/js/11.f05f231d.js"><link rel="prefetch" href="/assets/js/12.3829ce77.js"><link rel="prefetch" href="/assets/js/13.0c92c138.js"><link rel="prefetch" href="/assets/js/14.cb0adfbf.js"><link rel="prefetch" href="/assets/js/15.e78cff2c.js"><link rel="prefetch" href="/assets/js/16.1cb616e4.js"><link rel="prefetch" href="/assets/js/17.e39af442.js"><link rel="prefetch" href="/assets/js/18.6857e041.js"><link rel="prefetch" href="/assets/js/19.df510d15.js"><link rel="prefetch" href="/assets/js/20.3e4240c8.js"><link rel="prefetch" href="/assets/js/21.1f91c728.js"><link rel="prefetch" href="/assets/js/22.ff2d308a.js"><link rel="prefetch" href="/assets/js/24.0935d12d.js"><link rel="prefetch" href="/assets/js/25.5906a4e0.js"><link rel="prefetch" href="/assets/js/26.a721d668.js"><link rel="prefetch" href="/assets/js/27.4e9a794b.js"><link rel="prefetch" href="/assets/js/28.b68a5168.js"><link rel="prefetch" href="/assets/js/29.b94d97d5.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.37ebc109.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="/logo.svg" alt="Jonas Havers" class="logo"> <span class="site-name can-hide">Jonas Havers</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">Home</a></div><div class="nav-item"><a href="/articles/" class="nav-link router-link-active">Articles</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Profiles</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://twitter.com/JonasHavers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/JonasHavers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://medium.com/@jonashavers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Medium
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://www.linkedin.com/in/jonashavers/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  LinkedIn
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://www.xing.com/profile/Jonas_Havers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  XING
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">Home</a></div><div class="nav-item"><a href="/articles/" class="nav-link router-link-active">Articles</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Profiles</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://twitter.com/JonasHavers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Twitter
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://github.com/JonasHavers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  GitHub
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://medium.com/@jonashavers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Medium
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://www.linkedin.com/in/jonashavers/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  LinkedIn
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li><li class="dropdown-item"><!----> <a href="https://www.xing.com/profile/Jonas_Havers" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  XING
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <!----></nav>  <!----> </aside> <main class="page"> <div class="content default"><h1 id="how-to-check-your-java-dependencies-for-owasp-vulnerabilities-and-security-issues">How to check your Java dependencies for OWASP vulnerabilities and security issues</h1> <p>The OWASP <a href="https://jeremylong.github.io/DependencyCheck/" target="_blank" rel="noopener noreferrer">dependency-check<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>
+provides monitoring of the libraries you use in your Java project to identify
+the use of known vulnerable components.</p> <p>It produces an individual analysis report for the issue of “<a href="https://www.owasp.org/index.php/Top_10-2017_A9-Using_Components_with_Known_Vulnerabilities" target="_blank" rel="noopener noreferrer">Using Components
+with Known
+Vulnerabilities<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>”
+which is listed in <a href="https://www.owasp.org/index.php/Top_10-2017_Top_10" target="_blank" rel="noopener noreferrer">the OWASP Top Ten
+2017<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p> <hr> <h2 id="gradle-plugin">Gradle plugin</h2> <p>The <a href="https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/" target="_blank" rel="noopener noreferrer">gradle
+plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>
+can create a report of known vulnerable components that are included in the
+build of your project. You include it in your <em>build.gradle</em>:</p> <div class="language-groovy extra-class"><pre class="language-groovy"><code>buildscript <span class="token punctuation">{</span>
+    repositories <span class="token punctuation">{</span>
+        <span class="token function">mavenCentral</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    dependencies <span class="token punctuation">{</span>
+        classpath <span class="token string">'org.owasp:dependency-check-gradle:3.1.2'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+apply plugin<span class="token punctuation">:</span> <span class="token string">'org.owasp.dependencycheck'</span>
+</code></pre></div><p>Afterwards you should integrate the check into your build system by using the
+command:</p> <div class="language-bash extra-class"><pre class="language-bash"><code>./gradlew dependencyCheckAnalyze
+</code></pre></div><hr> <h2 id="integration-with-gitlab-ci">Integration with Gitlab CI</h2> <p>If you are using Gitlab CI and you do not want to execute the check on every CI
+build, because your dependencies do not change that often and the check itself
+can take a few minutes depending on the libraries you are using, you can
+<a href="https://docs.gitlab.com/ce/user/project/pipelines/schedules.html" target="_blank" rel="noopener noreferrer">schedule a
+pipeline<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> in
+your project and restrict the task’s execution to that scheduled (nightly)
+build. Here is an excerpt for your <em>.gitlab-ci.yml</em> file that you place in your
+project root folder:</p> <div class="language-yaml extra-class"><pre class="language-yaml"><code><span class="token key atrule">stages</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> dependencyCheck
+  <span class="token comment"># etc.</span>
+
+<span class="token key atrule">dependencyCheck</span><span class="token punctuation">:</span>
+  <span class="token key atrule">stage</span><span class="token punctuation">:</span> dependencyCheck
+  <span class="token key atrule">only</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> schedules
+  <span class="token key atrule">script</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> ./gradlew dependencyCheckAnalyze
+  <span class="token key atrule">artifacts</span><span class="token punctuation">:</span>
+    <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">&quot;${CI_JOB_ID}_${CI_JOB_NAME}&quot;</span>
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> always
+    <span class="token key atrule">expire_in</span><span class="token punctuation">:</span> 30 day
+    <span class="token key atrule">paths</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> build/reports/dependency<span class="token punctuation">-</span>check<span class="token punctuation">-</span>report.html
+</code></pre></div><p>When executed, the plugin will create the dependency check HTML report and
+Gitlab will archive it for 30 days.</p> <hr> <h2 id="configurations">Configurations</h2> <p>You can <a href="https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html" target="_blank" rel="noopener noreferrer">configure the gradle
+plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>
+by applying a closure in your <em>build.gradle</em> like the one below that will fail
+the build when a <a href="https://www.first.org/cvss/" target="_blank" rel="noopener noreferrer">CVSS score<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> equal to or above a
+level 5 is identified:</p> <div class="language-groovy extra-class"><pre class="language-groovy"><code>dependencyCheck <span class="token punctuation">{</span>
+  failBuildOnCVSS <span class="token operator">=</span> <span class="token number">5</span>
+  failOnError <span class="token operator">=</span> <span class="token boolean">true</span>
+  suppressionFile <span class="token operator">=</span> <span class="token string">'config/dependencyCheck/suppressions.xml'</span>
+  analyzers <span class="token punctuation">{</span>
+    experimentalEnabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    archiveEnabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    jarEnabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    centralEnabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    nexusEnabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    pyDistributionEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    pyPackageEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    rubygemsEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    opensslEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    nuspecEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    assemblyEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    cmakeEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    autoconfEnabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    composerEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    nodeEnabled <span class="token operator">=</span> <span class="token boolean">true</span>
+    nspEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    cocoapodsEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+    swiftEnabled <span class="token operator">=</span> <span class="token boolean">false</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>Personally, I like to put configurations like this one in separate files (e.g.
+in <em>gradle/plugins</em>) and apply their contents to the <em>build.gradle</em> like this:</p> <div class="language-groovy extra-class"><pre class="language-groovy"><code>apply from<span class="token punctuation">:</span> <span class="token string gstring">&quot;gradle/plugins/dependency-check.gradle&quot;</span>
+</code></pre></div><hr> <h2 id="suppressions">Suppressions</h2> <p>In the configuration example above I defined my path to a suppression file
+relative to the <em>build.gradle</em>:</p> <div class="language-groovy extra-class"><pre class="language-groovy"><code>dependencyCheck <span class="token punctuation">{</span>
+  suppressionFile <span class="token operator">=</span> <span class="token string">'config/dependencyCheck/suppressions.xml'</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>In <em>config/dependencyCheck/suppressions.xml</em> I can define which warnings should
+be ignored. This way I can define <a href="https://jeremylong.github.io/DependencyCheck/general/suppression.html" target="_blank" rel="noopener noreferrer">False
+Positives<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>
+or known (minor) issues I want or have to ignore until a dependency update.
+Example:</p> <div class="language-xml extra-class"><pre class="language-xml"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>xml</span> <span class="token attr-name">version</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>1.0<span class="token punctuation">&quot;</span></span> <span class="token attr-name">encoding</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>UTF-8<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>suppressions</span> <span class="token attr-name">xmlns</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>suppress</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>notes</span><span class="token punctuation">&gt;</span></span><span class="token cdata">&lt;![CDATA[
+  file name: async-http-client-netty-utils-2.1.0-alpha25.jar
+  ]]&gt;</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>notes</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>gav</span> <span class="token attr-name">regex</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>true<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>^org\.asynchttpclient:async-http-client-netty-utils:.*$<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>gav</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>cve</span><span class="token punctuation">&gt;</span></span>CVE-2014-3488<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>cve</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>suppress</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>suppressions</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><p>You can also create hints for <a href="https://jeremylong.github.io/DependencyCheck/general/hints.html" target="_blank" rel="noopener noreferrer">False
+Negatives<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>.</p></div> <!----> <!----> </main> <footer data-v-10fc90dc>
+  Copyright © Jonas Havers – <a href="/legal-notice/" data-v-10fc90dc>Legal Notice</a></footer></div><div class="global-ui"></div></div>
+    <script src="/assets/js/6.e7f0fcb3.js" defer></script><script src="/assets/js/1.7959f0b7.js" defer></script><script src="/assets/js/23.92edfe0a.js" defer></script><script src="/assets/js/app.e42eebfe.js" defer></script>
+  </body>
+</html>
